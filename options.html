@@ -1,27 +1,211 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Settings</title>
   <style>
-    body { padding: 20px; font-family: sans-serif; width: 350px; background: white; }
-    h2 { color: #333; }
-    label { display: block; margin-top: 10px; }
-    select, input { width: 100%; margin: 10px 0; padding: 8px; box-sizing: border-box; }
-    button { width: 100%; padding: 10px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; }
+    :root {
+      --bg-1: #f3f8ff;
+      --bg-2: #eaf4ef;
+      --card: #ffffff;
+      --text: #102032;
+      --muted: #526273;
+      --border: #d9e2ec;
+      --accent: #0f6cbd;
+      --accent-hover: #0d5ca2;
+      --success-bg: #e8f8ed;
+      --success-text: #17653a;
+      --error-bg: #fdecef;
+      --error-text: #8a1f2d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px 16px;
+      background: radial-gradient(circle at top left, var(--bg-1), var(--bg-2));
+      font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--text);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 460px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 8px 30px rgba(15, 32, 50, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    select,
+    input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(15, 108, 189, 0.14);
+    }
+
+    .hint {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .connection-row {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: #f7fafc;
+    }
+
+    .badge.connected {
+      color: var(--success-text);
+      background: var(--success-bg);
+      border-color: #b9e4c7;
+    }
+
+    .badge.disconnected {
+      color: var(--error-text);
+      background: var(--error-bg);
+      border-color: #f6c8cf;
+    }
+
+    .badge.checking {
+      color: #5a4b10;
+      background: #fff9e5;
+      border-color: #f0df9a;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    #saveBtn {
+      flex: 1;
+      color: #fff;
+      background: var(--accent);
+      transition: background 0.15s ease;
+    }
+
+    #saveBtn:hover {
+      background: var(--accent-hover);
+    }
+
+    #checkBtn {
+      background: #ffffff;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    #checkBtn:hover {
+      background: #f7fafc;
+    }
+
+    #status {
+      margin-top: 14px;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      display: none;
+    }
+
+    #status.success {
+      background: var(--success-bg);
+      color: var(--success-text);
+      display: block;
+    }
+
+    #status.error {
+      background: var(--error-bg);
+      color: var(--error-text);
+      display: block;
+    }
   </style>
 </head>
 <body>
-  <h2>AI Settings</h2>
-  <label>Select Provider:</label>
-  <select id="provider">
-    <option value="openai">OpenAI (GPT-4o-mini)</option>
-    <option value="gemini">Google Gemini (1.5 Flash)</option>
-  </select>
-  
-  <label>Enter API Key:</label>
-  <input type="password" id="apiKey" placeholder="sk-...">
-  
-  <button id="saveBtn">Save Settings</button>
+  <main class="card">
+    <h1>AI Settings</h1>
+    <p class="subtitle">Choose a provider and save your API key for the popup chat.</p>
+
+    <label for="provider">Provider</label>
+    <select id="provider">
+      <option value="openai">OpenAI (gpt-4o-mini)</option>
+      <option value="gemini">Google Gemini (auto Flash model)</option>
+    </select>
+
+    <label for="apiKey">API Key</label>
+    <input type="password" id="apiKey" placeholder="Paste your API key here">
+    <p class="hint">Key is stored in your browser extension storage.</p>
+
+    <div class="connection-row">
+      <div id="connectionBadge" class="badge disconnected">Status: Not connected</div>
+      <button id="checkBtn" type="button">Check Connection</button>
+    </div>
+
+    <div class="actions">
+      <button id="saveBtn" type="button">Save Settings</button>
+    </div>
+    <div id="status" role="status" aria-live="polite"></div>
+  </main>
 
   <script src="options.js"></script>
 </body>

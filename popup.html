@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Multi-Chat</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --text: #132033;
+      --muted: #5d6c7c;
+      --border: #dce5ef;
+      --accent: #0f6cbd;
+      --accent-hover: #0d5ca2;
+      --bubble-user: #e8f3ff;
+      --bubble-ai: #f3f7f1;
+      --error-bg: #fdecef;
+      --error-text: #8a1f2d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      width: 380px;
+      min-height: 520px;
+      background: linear-gradient(180deg, #eef4ff 0%, #f7fbf2 100%);
+      font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--text);
+      padding: 14px;
+    }
+
+    .app {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(12, 25, 38, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 492px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      background: #f8fbff;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .provider {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .connection {
+      margin-top: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .connection.connected {
+      color: #17653a;
+    }
+
+    .connection.disconnected {
+      color: #8a1f2d;
+    }
+
+    .connection.checking {
+      color: #5a4b10;
+    }
+
+    .settings-btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      border-radius: 8px;
+      padding: 6px 9px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    #messages {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .msg {
+      border-radius: 10px;
+      padding: 9px 11px;
+      font-size: 13px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-width: 90%;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: var(--bubble-user);
+      border: 1px solid #cfe2fa;
+    }
+
+    .msg.ai {
+      align-self: flex-start;
+      background: var(--bubble-ai);
+      border: 1px solid #d9ebd1;
+    }
+
+    .msg.error {
+      align-self: stretch;
+      background: var(--error-bg);
+      color: var(--error-text);
+      border: 1px solid #f8cfd5;
+    }
+
+    .composer {
+      padding: 12px;
+      border-top: 1px solid var(--border);
+      background: #fff;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 78px;
+      max-height: 150px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 10px;
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(15, 108, 189, 0.14);
+    }
+
+    .actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    #sendBtn {
+      border: 0;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 9px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    #sendBtn:hover {
+      background: var(--accent-hover);
+    }
+
+    #sendBtn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div>
+        <h1 class="title">AI Multi-Chat</h1>
+        <div class="provider" id="providerLabel">Provider: loading...</div>
+        <div class="connection checking" id="connectionLabel">Connection: checking...</div>
+      </div>
+      <button id="openSettingsBtn" class="settings-btn" type="button">Settings</button>
+    </header>
+
+    <section id="messages"></section>
+
+    <section class="composer">
+      <textarea id="prompt" placeholder="Ask anything..."></textarea>
+      <div class="actions">
+        <span class="hint">Enter to send, Shift+Enter for newline</span>
+        <button id="sendBtn" type="button">Send</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>
