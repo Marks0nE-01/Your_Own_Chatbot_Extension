@@ -1,5 +1,7 @@
 create your own chat bot with your own api
 
+firstly import this folder to your chrome or edge extension 
+
 1.click on your extension   <br><br> <img width="100" height="48" alt="image" src="https://github.com/user-attachments/assets/c175617b-3cad-4b49-ad57-d59e4ae5db3b" />
 
 2.click settings  <br><br> <img width="486" height="651" alt="image" src="https://github.com/user-attachments/assets/9de4cf1a-2d31-4c2c-b325-5f32e62c6a94" />
