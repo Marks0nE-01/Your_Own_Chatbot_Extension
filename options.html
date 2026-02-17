@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Settings</title>
+  <style>
+    body { padding: 20px; font-family: sans-serif; width: 350px; background: white; }
+    h2 { color: #333; }
+    label { display: block; margin-top: 10px; }
+    select, input { width: 100%; margin: 10px 0; padding: 8px; box-sizing: border-box; }
+    button { width: 100%; padding: 10px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h2>AI Settings</h2>
+  <label>Select Provider:</label>
+  <select id="provider">
+    <option value="openai">OpenAI (GPT-4o-mini)</option>
+    <option value="gemini">Google Gemini (1.5 Flash)</option>
+  </select>
+  
+  <label>Enter API Key:</label>
+  <input type="password" id="apiKey" placeholder="sk-...">
+  
+  <button id="saveBtn">Save Settings</button>
+
+  <script src="options.js"></script>
+</body>
+</html>
