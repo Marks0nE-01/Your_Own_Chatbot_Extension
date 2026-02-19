@@ -1,4 +1,5 @@
-create your own chat bot with your own api
+AI Multi-Chat is a Chrome Extension (Manifest V3) that lets users chat with either OpenAI or Google Gemini directly from a browser popup. Users choose a provider and save an API key in the options page (chrome.storage.sync), then send prompts in a simple chat UI.
+
 
 firstly import this folder to your chrome or edge extension 
 
